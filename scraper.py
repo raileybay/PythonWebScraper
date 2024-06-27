@@ -38,4 +38,27 @@ for quote_element in quote_elements:
         }
     )
 #crawling logic
+#URL of the home page of target website
+base_url = 'https://quotes.toscrape.com'
+
+#retrieve the page and initialize soup
+
+#get the "Next ->" HTML element
+next_li_element = soup.find('li', class_='next')
+
+#if there is a next page to scrape
+while next_li_element is not None:
+    next_page_relative_url = next_li_element.find('a', href=True) ['href']
+
+    #get the new page
+    page = requests.get(base_url + next_page_relative_url, headers=headers)
+
+    #parse the new page
+    soup = BeautifulSoup(page.text, 'html.parser')
+
+    #scraping logic...
+
+    #look for the "Next ->" HTML element in the new page
+    next_li_element = soup.find('li', class_='next')
+
 
